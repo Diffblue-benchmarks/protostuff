@@ -1,0 +1,102 @@
+cbmcArguments:
+  depth: false
+  java-max-vla-length: false
+  max-nondet-array-length: 100
+  cover-include-pattern: .*ProtobufOutput.*
+phases:
+-
+#0 the only phase without load-containing-class-only or single-function-only
+  timeout: 300
+  cbmcArguments:
+    classpath: '/tools/cbmc/models-simple-overlay.jar:/tools/cbmc/models.jar:.'    
+    max-nondet-string-length: 10
+    string-printable: true
+    unwind: 1
+    refine: true
+    throw-runtime-exceptions: false
+  nextPhase:
+    not_analyzed: null
+-
+#2
+  timeout: 300
+  cbmcArguments:
+    classpath: '/tools/cbmc/models-simple-overlay.jar:/tools/cbmc/models.jar:.'
+    max-nondet-string-length: 50
+    string-printable: true
+    unwind: 2
+    throw-runtime-exceptions: false
+  nextPhase:
+    time_out: 4
+-
+#3
+  timeout: 300
+  cbmcArguments:
+    classpath: '/tools/cbmc/models.jar:.'
+    load-containing-class-only: true
+    max-nondet-string-length: 100
+    string-printable: false
+    unwind: 3
+    throw-runtime-exceptions: true
+-
+#4 fallback for timeouts, copy of #3 with single-function-only
+  timeout: 300
+  cbmcArguments:
+    classpath: '/tools/cbmc/models.jar:.'
+    max-nondet-string-length: 100
+    single-function-only: true
+    string-printable: false
+    unwind: 3
+    throw-runtime-exceptions: true
+  depth: false
+  do-not-test-methods-with-access: [ private ]
+  java-generate-no-comments: true
+  no-trivial-tests: true
+units:
+  # Target Coverage: Unknown %
+  - target:
+    - dir: protostuff-core/target/classes
+      file: io/protostuff/ProtobufOutput.class
+      sourceDir: protostuff-core/src/main/java
+      sourceFile: io/protostuff/ProtobufOutput.java
+    # Child of ProtobufOutput.class
+    # Child Coverage: Unknown %
+    - dir: protostuff-api/target/classes
+      file: io/protostuff/Schema.class
+      sourceDir: protostuff-api/src/main/java
+      sourceFile: io/protostuff/Schema.java
+    # Child of ProtobufOutput.class
+    # Child Coverage: Unknown %
+    - dir: protostuff-api/target/classes
+      file: io/protostuff/Output.class
+      sourceDir: protostuff-api/src/main/java
+      sourceFile: io/protostuff/Output.java
+    # Child of ProtobufOutput.class
+    # Child Coverage: Unknown %
+    - dir: protostuff-api/target/classes
+      file: io/protostuff/WriteSession.class
+      sourceDir: protostuff-api/src/main/java
+      sourceFile: io/protostuff/WriteSession.java
+    # Child of ProtobufOutput.class
+    # Child Coverage: Unknown %
+    - dir: protostuff-api/target/classes
+      file: io/protostuff/StringSerializer.class
+      sourceDir: protostuff-api/src/main/java
+      sourceFile: io/protostuff/StringSerializer.java
+    # Child of ProtobufOutput.class
+    # Child Coverage: Unknown %
+    - dir: protostuff-api/target/classes
+      file: io/protostuff/LinkedBuffer.class
+      sourceDir: protostuff-api/src/main/java
+      sourceFile: io/protostuff/LinkedBuffer.java
+    # Child of ProtobufOutput.class
+    # Child Coverage: Unknown %
+    - dir: protostuff-api/target/classes
+      file: io/protostuff/ByteString.class
+      sourceDir: protostuff-api/src/main/java
+      sourceFile: io/protostuff/ByteString.java
+    # Child of ProtobufOutput.class
+    # Child Coverage: Unknown %
+    - dir: protostuff-api/target/classes
+      file: io/protostuff/WireFormat.class
+      sourceDir: protostuff-api/src/main/java
+      sourceFile: io/protostuff/WireFormat.java
